@@ -1,0 +1,52 @@
+
+
+  private void toWords(int h, int t, int u) {
+        if (h==0 && t==0 && u==0) threeNum.insert(0, "ноль");
+        if ( h < 5) {
+            threeNum.insert(0, uniqueWords.get(h * 100).toString());
+        }
+        if (h >= 5) {
+            threeNum.insert(0, (uniqueWords.get(h).toString())).append("ь").append(uniqueWords.get(500).toString());
+           // threeNum = (uniqueWords.get(h).toString()).concat("ь").concat(uniqueWords.get(500).toString());
+        }
+        if (t == 4 || t == 9) {
+            threeNum.append(" ").append(uniqueWords.get(t * 10).toString());
+            //threeNum = String.join(" ",  threeNum, uniqueWords.get(t * 10).toString());
+        }
+        if (t>4 && t<9){
+            threeNum.append(" ").append(uniqueWords.get(t).toString()).append(uniqueWords.get(50).toString());
+//            threeNum = String.join(" ",  threeNum,
+//                    (uniqueWords.get(t).toString()).concat(uniqueWords.get(50).toString()));
+        }
+        if (t == 2 || t == 3) {
+            threeNum.append(" ").append(uniqueWords.get(t).toString()).append(uniqueWords.get(20).toString());
+//            threeNum = String.join(" ",  threeNum,
+//                    (uniqueWords.get(t).toString()).concat(uniqueWords.get(20).toString()));
+        }
+        if ((t==0 && u!=0) || (u > 0 && t!=1)) {
+            threeNum.append(" ").append(uniqueWords.get(u).toString());
+           // threeNum = String.join(" ",  threeNum, (uniqueWords.get(u).toString()));
+            if (u == 4) {
+                threeNum.append("e");
+               // threeNum =  threeNum.concat("e");
+            }
+            if (u > 4) {
+                threeNum.append("ь");
+               // threeNum =  threeNum.concat("ь");
+            }
+        }
+        if (t == 1) {
+            if (u != 0 && u != 2) {
+                threeNum.append(" ").append(uniqueWords.get(u).toString()).append(uniqueWords.get(11).toString());
+               // threeNum = String.join(" ", threeNum, (uniqueWords.get(u).toString()).concat(uniqueWords.get(11).toString()));
+            }
+            if (u == 2) {
+                threeNum.append(" ").append(uniqueWords.get(12).toString());
+               // threeNum = String.join(" ", threeNum, (uniqueWords.get(12).toString()));
+            }
+            if (u == 0) {
+                threeNum.append(" ").append(uniqueWords.get(10).toString());
+               // threeNum = String.join(" ",  threeNum, (uniqueWords.get(10).toString()));
+            }
+        }
+    }
