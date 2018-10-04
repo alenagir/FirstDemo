@@ -22,7 +22,7 @@ public class NumberReader {
     private static final Map uniqueWords;
     static {
         Map map = new HashMap();
-        map.put(0, " ");
+        map.put(0, "");
         map.put(1, "один");
         map.put(2, "два");
         map.put(3, "три");
@@ -60,6 +60,7 @@ public class NumberReader {
         this.lastToWords();
         if (enteredNumber.length()>3)   this.middleToWords();
         if (enteredNumber.length()>6)   this.firstToWords();
+        if (enteredNumber.length()>3 && middleThreeNum != "" && lastThreeNum.equals("ноль"))  lastThreeNum="";
 
         numberInWords=firstThreeNum.concat(" ").concat(middleThreeNum).concat(" ").concat(lastThreeNum).trim();
         return numberInWords;
@@ -120,8 +121,8 @@ public class NumberReader {
         int t = splitedNumber[(enteredNumber.length()+2) - 2];
         int u = splitedNumber[(enteredNumber.length()+2) - 1];
         if ( h==0 && t==0 && u==0) return lastThreeNum = "ноль";
-        else this.toWords(h, t, u);
-        return lastThreeNum=threeNum.trim();
+        this.toWords(h, t, u);
+        return lastThreeNum=threeNum;
     }
 
     private String middleToWords() {
@@ -133,18 +134,18 @@ public class NumberReader {
         if ( h==0 && t==0 && u==0) return middleThreeNum = "";
         if (threeNum.endsWith("один")) {
             tN.replace(threeNum.length()-4, threeNum.length(), (uniqueWords.get(1000).toString()));
-            return middleThreeNum=tN.toString().trim();
+            return middleThreeNum=tN.toString();
         }
         if (threeNum.endsWith("два")) {
             tN.replace(threeNum.length()-3, threeNum.length(), (uniqueWords.get(2000).toString()));
-           return middleThreeNum=tN.toString().trim();
+           return middleThreeNum=tN.toString();
         }
         if (threeNum.endsWith("три") || threeNum.endsWith("четыре") ) {
             tN.append(uniqueWords.get(3000).toString());
-           return middleThreeNum=tN.toString().trim();
+           return middleThreeNum=tN.toString();
         }
             tN.append(uniqueWords.get(5000).toString());
-           return middleThreeNum=tN.toString().trim();
+           return middleThreeNum=tN.toString();
     }
 
     private String firstToWords() {
@@ -155,14 +156,14 @@ public class NumberReader {
         StringBuilder tN = new StringBuilder(threeNum);
         if (threeNum.endsWith("один")) {
             tN.append(uniqueWords.get(1E6).toString());
-            return firstThreeNum=tN.toString().trim();
+            return firstThreeNum=tN.toString();
         }
         if (threeNum.endsWith("два") || threeNum.endsWith("три") || threeNum.endsWith("четыре")) {
             tN.append(uniqueWords.get(2E6).toString());
-            return firstThreeNum=tN.toString().trim();
+            return firstThreeNum=tN.toString();
         }
        tN.append(uniqueWords.get(5E6).toString());
-        return firstThreeNum=tN.toString().trim();
+        return firstThreeNum=tN.toString();
     }
 
 
