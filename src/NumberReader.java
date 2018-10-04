@@ -81,6 +81,10 @@ public class NumberReader {
         if (h >= 5) {
             threeNum = (uniqueWords.get(h).toString()).concat("ь").concat(uniqueWords.get(500).toString());
         }
+        if (t == 2 || t == 3) {
+            threeNum = String.join(" ",  threeNum,
+                    (uniqueWords.get(t).toString()).concat(uniqueWords.get(20).toString()));
+        }
         if (t == 4 || t == 9) {
             threeNum = String.join(" ",  threeNum, uniqueWords.get(t * 10).toString());
         }
@@ -88,11 +92,7 @@ public class NumberReader {
             threeNum = String.join(" ",  threeNum,
                     (uniqueWords.get(t).toString()).concat(uniqueWords.get(50).toString()));
         }
-        if (t == 2 || t == 3) {
-            threeNum = String.join(" ",  threeNum,
-                    (uniqueWords.get(t).toString()).concat(uniqueWords.get(20).toString()));
-        }
-        if ((t==0 && u!=0) || (u > 0 && t!=1)) {
+        if ((t==0 || t>1) && u!=0) {
             threeNum = String.join(" ",  threeNum, (uniqueWords.get(u).toString()));
             if (u == 4) {
                 threeNum =  threeNum.concat("e");
@@ -130,6 +130,7 @@ public class NumberReader {
         int u = splitedNumber[(enteredNumber.length()+2) - 4];
         this.toWords(h, t, u);
         StringBuilder tN = new StringBuilder(threeNum);
+        if ( h==0 && t==0 && u==0) return middleThreeNum = "";
         if (threeNum.endsWith("один")) {
             tN.replace(threeNum.length()-4, threeNum.length(), (uniqueWords.get(1000).toString()));
             return middleThreeNum=tN.toString().trim();
@@ -142,7 +143,7 @@ public class NumberReader {
             tN.append(uniqueWords.get(3000).toString());
            return middleThreeNum=tN.toString().trim();
         }
-        tN.append(uniqueWords.get(5000).toString());
+            tN.append(uniqueWords.get(5000).toString());
            return middleThreeNum=tN.toString().trim();
     }
 
