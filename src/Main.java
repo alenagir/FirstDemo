@@ -26,9 +26,23 @@ public class Main {
             e.getMessage();
         }
 
+    // Task1: CHESSBOARD
 
+        Stars stars = new Stars();
+        try {
+            stars.printChessboard(stars.getWidth(), stars.getHeight());
+            stars.printArrow(stars.getHeight());
+        }catch (NumberFormatException e){
+            e.getMessage();
+        }
 
+    // Task2: Contain ENVELOPES
+        //First realization
+        Envelopes envelopes=new Envelopes();
+        System.out.println(envelopes.userDialog());
 
+        //Second realization
+        System.out.println(Envelope.userDialog());
 
     }
 }
