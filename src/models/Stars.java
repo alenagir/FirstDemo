@@ -1,19 +1,22 @@
-import java.util.Scanner;
+package models;
+
+import service.Scanned;
 
 public class Stars {
     private int width;
     private int height;
     private String[] str;
+    private String s1 = "*"; // Better in POOL or String object in the method???????
+    private String s2 = " ";
 
     public Stars() {
         System.out.print("Enter the chessboard width: ");
-        Scanner sc = new Scanner(System.in);
-        String str = sc.nextLine();
-        this.width=Integer.parseInt(str);
+        this.width=Scanned.scanToInteger();;
 
         System.out.print("Enter the chessboard height: ");
-        str = sc.nextLine();
-        this.height=Integer.parseInt(str);
+        this.height=Scanned.scanToInteger();
+
+        str = new String[height];
     }
 
     public int getWidth() {
@@ -25,11 +28,9 @@ public class Stars {
     }
 
     public String[] getChessboard(int width, int height) {
-        str = new String[height];
-        String s1 = new String("*");
-        String s2 = new String(" ");
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < (height - height % 2); j += 2) {
+
+        for (int i = 1; i < width; i++) {
+            for (int j = 0; j < (height - height % 2); j += 2) { // (height - height % 2) to fill in even number of rows
                 if (str[j] == null) {
                     str[j] = s1;
                     str[j + 1] = s2;
@@ -42,9 +43,10 @@ public class Stars {
                     str[j + 1] = str[j + 1].concat(s2);
                 }
             }
-
         }
-        if (str[height - 1] == null) str[height - 1] = str[0];
+        if (str[height - 1] == null) { //to fill in the last odd row
+            str[height - 1] = str[0];
+        }
         return str;
     }
 
@@ -55,16 +57,19 @@ public class Stars {
         }
     }
 
+
+
+
     public void printArrow(int height)  {
         for (int i = 1; i <= height; i++) {
             if (i <=  (height / 2 + 1)) {
                 for (int j = 1; j <=  (height / 2 + 1) && j <= i; j++) {
-                    System.out.print("*");
+                    System.out.print(s1);
                 }
             }
             if (i > (int) (height / 2 + 1)) {
                 for (int j =  (height / 2 + 1); j > i -  (height / 2 + 1); j--) {
-                    System.out.print("*");
+                    System.out.print(s1);
                 }
             }
             System.out.println();
