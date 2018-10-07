@@ -1,62 +1,83 @@
 package models.envelopes;
 
-import java.util.Scanner;
+import service.Printable;
+import service.Scanned;
 
- public class Envelopes {
-        double width_1;
-        double height_1;
-        double width_2;
-        double height_2;
-        String message=new String("One of the envelopes cannot contain the other.");
-        String userAnswer;
-        String systemAnswer;
+//NOT GOOD REALIZATION
+
+ public class Envelopes implements MyComparator, Printable {
+     private double width_1;
+     private double height_1;
+     private double width_2;
+     private  double height_2;
+     private static String userAnswer;
+
 
 
         public Envelopes (){
-            System.out.print("Enter the first envelope width 1, mm : ");
-            Scanner sc = new Scanner(System.in);
-            String str = sc.nextLine();
-            this.width_1=Double.parseDouble(str);
-
-            System.out.print("Enter the first envelope height 1, mm: ");
-            str = sc.nextLine();
-            this.height_1=Double.parseDouble(str);
-
-            System.out.print("Enter the second envelope width 2, mm: ");
-            str = sc.nextLine();
-            this.width_2=Double.parseDouble(str);
-
-            System.out.print("Enter the second envelope height 2, mm: ");
-            str = sc.nextLine();
-            this.height_2=Double.parseDouble(str);
+            System.out.print("Enter the envelopes parameters to compare, mm : "+"\n");
         }
 
-        public boolean compareEnvelope(){
-            if (width_1<=0 || width_2<=0 || height_1<=0 || height_2<=0) return false;
-            if (((width_1 - width_2)<1 && (height_1 - height_2)<1 ) && ( (width_2 - width_1)<1 && (height_2 - height_1)<1))
-                return false;
-            return true;
-        }
-        public String putEnvelope(){
-            if (this.compareEnvelope()==false) return message;
-            if (width_1>width_2) return message="The first envelope can contain the other.";
-            if (width_2>width_1) return message="The second envelope can contain the other.";
-            return message;
-        }
-        public String userDialog(){
-            do{
-                systemAnswer= this.putEnvelope();
-                System.out.println(systemAnswer);
-                System.out.println("Would you like to continue? Y(yes)/N(no)");
-                Scanner scn = new Scanner(System.in);
-                userAnswer = scn.nextLine().toLowerCase();
-            } while((userAnswer.equals("y") || userAnswer.equals("yes")));
+        private void setEnvelopesParam(){
+            this.print("w1");
+            this.width_1= Scanned.scanToDouble();
 
-            systemAnswer = "The program is terminated by the user";
+            this.print("h1");
+            this.height_1=Scanned.scanToDouble();
 
-            return systemAnswer;
+            this.print("w2");
+            this.width_2=Scanned.scanToDouble();
+
+            this.print("h2");
+            this.height_2=Scanned.scanToDouble();
         }
 
+
+     public int compareEnvelopes(){
+            if (MyComparator.compare(width_1, width_2)<-1
+                && MyComparator.compare(height_1, height_2)<-1){// First is smaller
+                return -1;
+            }
+            if (MyComparator.compare(width_1, width_2)>1
+                        && MyComparator.compare(height_1, height_2)>1){// First is bigger
+                return 1;
+            }
+            else return 0; // Equal within @param TOLERANCE
+        }
+
+
+        public  static void userDialog(){
+            Printable.startQuestion();
+            userAnswer = Scanned.scanToString();
+
+            if (userAnswer.equals("no") || userAnswer.equals("n")) {
+                Printable.userTerminated();
+                return;
+            }
+
+            if (userAnswer.equals("yes") || userAnswer.equals("y") ) {
+                Envelopes envelopes = new Envelopes();
+
+                do {
+                    envelopes.setEnvelopesParam();
+                    int compare = envelopes.compareEnvelopes();
+                    Printable.print(compare);
+                    Printable.continueQuestion();
+                    userAnswer=Scanned.scanToString();
+                    if (userAnswer.equals("no") || userAnswer.equals("n")) return;
+
+                }while((userAnswer.equals("y") || userAnswer.equals("yes")));
+            }
+
+
+
+        }
+
+
+     @Override
+     public void print(String s, int counter) {
+
+     }
  }
 
 

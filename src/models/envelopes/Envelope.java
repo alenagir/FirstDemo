@@ -1,64 +1,99 @@
 package models.envelopes;
 
-import java.util.Scanner;
+import service.Printable;
+import service.Scanned;
 
-public class Envelope {
-    double width_1;
-    double height_1;
-    double width_2;
-    double height_2;
-    static String message=new String("One of the envelopes cannot contain the other.");
-    static String userAnswer;
-    static String systemAnswer;
+import java.util.Comparator;
+
+public class Envelope implements Comparator, Printable {
+    private double width;
+    private double height;
+    private static String userAnswer;
+    public static int TOLERANCE = 1;
+    public static int envelopeCounter=1;
 
 
-    private Envelope (){
-        System.out.print("Enter the first envelope width 1, mm : ");
-        Scanner sc = new Scanner(System.in);
-        String str = sc.nextLine();
-        this.width_1=Double.parseDouble(str);
+    public Envelope() {}
 
-        System.out.print("Enter the first envelope height 1, mm: ");
-        str = sc.nextLine();
-        this.height_1=Double.parseDouble(str);
+    private void setEnvelopeParam() {
 
-        System.out.print("Enter the second envelope width 2, mm: ");
-        str = sc.nextLine();
-        this.width_2=Double.parseDouble(str);
+        this.print("w", (envelopeCounter%2)+1);
+        this.width = Scanned.scanToDouble();
 
-        System.out.print("Enter the second envelope height 2, mm: ");
-        str = sc.nextLine();
-        this.height_2=Double.parseDouble(str);
+        this.print("h", envelopeCounter%2+1);
+        this.height = Scanned.scanToDouble();
     }
 
-    public boolean compareEnvelope(){
-        if (width_1<=0 || width_2<=0 || height_1<=0 || height_2<=0) return false;
-        if (((width_1 - width_2)<1 && (height_1 - height_2)<1 ) && ( (width_2 - width_1)<1 && (height_2 - height_1)<1))
-            return false;
-        return true;
-    }
-    public String putEnvelope(){
-        if (this.compareEnvelope()==false) return message;
-        if (width_1>width_2) return message="The first envelope can contain the other.";
-        if (width_2>width_1) return message="The second envelope can contain the other.";
-        return message;
-    }
-    public static String userDialog(){
-        System.out.println("Would you like to put one envelope into another? Y(yes)/N(no)");
-        Scanner scn = new Scanner(System.in);
-        userAnswer = scn.nextLine().toLowerCase();
+    public static void userDialog() {
+        do {
+            Printable.startQuestion();
+            userAnswer = Scanned.scanToString().toLowerCase();
 
-        if (userAnswer.equals("y") || userAnswer.equals("yes") ) {
-            Envelope envelope = new Envelope();
-            systemAnswer= envelope.putEnvelope();
-            return systemAnswer;
+            if (userAnswer.equals("no") || userAnswer.equals("n")) {
+                Printable.userTerminated();
+                return;
+            }
+        } while (!userAnswer.equals("yes") && !userAnswer.equals("y"));
+
+        if (userAnswer.equals("yes") || userAnswer.equals("y") ) {
+            Envelope envelope1 = new Envelope();
+            Envelope envelope2 = new Envelope();
+
+            do {
+                ++envelopeCounter;
+                envelope1.setEnvelopeParam();
+                ++envelopeCounter;
+                envelope2.setEnvelopeParam();
+                int compare = envelope1.compare(envelope1, envelope2);
+                Printable.print(compare);
+                Printable.continueQuestion();
+                userAnswer = Scanned.scanToString().toLowerCase();
+                if (userAnswer.equals("no") || userAnswer.equals("n")) break;
+
+            } while ((userAnswer.equals("yes") || userAnswer.equals("y")));
         }
-
-        if (userAnswer.equals("n") || userAnswer.equals("no") ) {
-            systemAnswer = "The program is terminated by the user";
-            return systemAnswer;
-        }
-        return systemAnswer;
+        Printable.userTerminated();
     }
+
+
+    @Override
+    public int compare(Object o1, Object o2) {
+        if (((Envelope) o1).getWidth() - ((Envelope) o2).getWidth() < -TOLERANCE
+                && ((Envelope) o1).getHeight() - ((Envelope) o2).getHeight() < -TOLERANCE) {// First is smaller
+            return -1;
+        }
+        if (((Envelope) o1).getWidth() - ((Envelope) o2).getWidth() > TOLERANCE
+                && ((Envelope) o1).getHeight() - ((Envelope) o2).getHeight() > TOLERANCE) {// First is larger
+            return 1;
+        } else return 0;
+    }
+
+    @Override
+    public void print(String s, int counter){
+        if (s=="w") System.out.println("width "+counter +" = ");
+        if (s=="h") System.out.println("height "+counter +" = ");
+
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public int getEnvelopeCounter() {
+        return envelopeCounter;
+    }
+
+    public static int getTOLERANCE() {
+        return TOLERANCE;
+    }
+
+    public static void setTOLERANCE(int TOLERANCE) {
+        Envelope.TOLERANCE = TOLERANCE;
+    }
+
 
 }
