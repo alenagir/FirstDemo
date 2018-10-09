@@ -1,24 +1,35 @@
-import models.FileParser;
-import models.envelopes.Envelope;
-
-import models.NumberReader;
-import models.Stars;
-import service.PolygonService;
-
-import java.awt.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import models.*;
 
 
 public class Main {
     public static void main(String[] args) {
 
+        // Task1: CHESSBOARD
+
+//        try {
+//            Stars stars = new Stars();
+//            stars.printChessboard(stars.getWidth(), stars.getHeight());
+//
+//        }catch (NumberFormatException e){
+//            System.out.println(e.getMessage());
+//        }
+
+        // Task2: Contain ENVELOPES
+        //First realization
+//        try {
+//        Envelope.userDialog();
+//        }catch (NumberFormatException e){
+//            System.out.println(e.getMessage());
+//        }
+
+//       //Second realization
+//       Envelopes.userDialog();
+
         //TASK 3. Triangles
 
-        PolygonService polygons = new PolygonService(PolygonService.compareBySquare);
-        polygons.userCreatePolygon();
-        polygons.printPolygons();
+//        PolygonService polygons = new PolygonService(PolygonService.compareBySquare);
+//        polygons.userCreatePolygon();
+//        polygons.printPolygons();
 
 
         // TASK 4: File parser "C://Users//Alena//Desktop//text.txt"
@@ -39,7 +50,7 @@ public class Main {
 //        }
 
 
-        // TASK 5: NUMBERS to WORDS
+        // TASK 5: NUMERALS to WORDS
 
 //        try{
 //               NumberReader number = new NumberReader();
@@ -48,27 +59,17 @@ public class Main {
 //        }catch (NumberFormatException e) {
 //            System.out.println(e.getMessage());
 //        }
+        // TASK 6: LUCKY TICKETS
 
-    // Task1: CHESSBOARD
+        LuckyTickets tickets = new LuckyTickets();
+        tickets.calcTickets();
 
-//        try {
-//            Stars stars = new Stars();
-//            stars.printChessboard(stars.getWidth(), stars.getHeight());
-//
-//        }catch (NumberFormatException e){
-//            System.out.println(e.getMessage());
-//        }
+        // TASK 7: NUMERALS Sequence
 
-    // Task2: Contain ENVELOPES
-        //First realization
-//        try {
-//        Envelope.userDialog();
-//        }catch (NumberFormatException e){
-//            System.out.println(e.getMessage());
-//        }
+//        Sequence sequence=new Sequence();
+//        System.out.println(sequence.getSequence());
+       // sequence.print();
 
-//       //Second realization
-//       Envelopes.userDialog();
 
     }
 }

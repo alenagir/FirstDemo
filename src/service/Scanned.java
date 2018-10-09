@@ -12,7 +12,7 @@ public interface Scanned {
 
     static Integer scanToInteger (){
         java.util.Scanner in = new java.util.Scanner(System.in);
-        String string = in.nextLine().replace("-", "");
+        String string = in.nextLine().trim().replace("-", "");
         try {
             Integer integer = Integer.parseInt(string);
             return integer;
@@ -22,7 +22,7 @@ public interface Scanned {
     }
     static Double scanToDouble (){
         java.util.Scanner in = new java.util.Scanner(System.in);
-        String string = in.nextLine().replace("-", "");
+        String string = in.nextLine().trim().replace("-", "");
         try {
             Double aDouble = Double.parseDouble(string);
             return aDouble;
