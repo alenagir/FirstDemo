@@ -13,7 +13,7 @@ public class NumberReader implements Scanned {
     private int numeralsCount;
     private String threeNum=new String(); // Repetitive sequence of words in each group of three numerals, i.e.
                                            // hundred, thousand, million
-    private String hundredThreeNum;
+    private String hundredThreeNum=new String("");
     private String thousandThreeNum=new String("");
     private String millionThreeNum=new String("");
     private String numberInWords; // Result to display
@@ -27,7 +27,7 @@ public class NumberReader implements Scanned {
 
 
     public NumberReader() {
-        System.out.print("Enter a number from 0 to 999 999 999: ");
+        System.out.print("Enter a number from 0 to 999 999 999:\n");
         this.enteredNumber = Scanned.scanToInteger();
         //(int) Math.ceil(Math.log10(enteredNumber + 0.5))  counts numerals in the entered number
         numeralsCount = (int) Math.ceil(Math.log10(enteredNumber + 0.5));
@@ -70,7 +70,10 @@ public class NumberReader implements Scanned {
         uniqueWords = Collections.unmodifiableMap(map);
     }
 
+    // The method to be invoked
     public String getNumberInWords () {
+        if (enteredNumber==0) return "ноль";
+
         this.fillSplitedNumber();
         this.hundredToWords();
         if (numeralsCount>3) {
@@ -79,8 +82,9 @@ public class NumberReader implements Scanned {
         if (numeralsCount>6) {
             this.millionToWords();
         }
-        if (numeralsCount>3 && thousandThreeNum != "" && hundredThreeNum.equals("ноль")) {
-            hundredThreeNum="";
+        //Not to output "ноль" if there is millions:
+        if ( thousandThreeNum.equals("") && thousandThreeNum.equals("") && hundredThreeNum.equals("")) {
+            hundredThreeNum.equals("ноль");
         }
         numberInWords=millionThreeNum.concat(thousandThreeNum).concat(hundredThreeNum).trim();
         return numberInWords;
@@ -140,7 +144,7 @@ public class NumberReader implements Scanned {
         int hundreds = splitedNumber[(numeralsCount+TWO_MORE) - 3];
         int tens = splitedNumber[(numeralsCount+TWO_MORE) - 2];
         int unities = splitedNumber[(numeralsCount+TWO_MORE) - 1];
-        if ( hundreds==0 && tens==0 && unities==0) return hundredThreeNum = "ноль";
+        if ( hundreds==0 && tens==0 && unities==0) return hundredThreeNum = "";
         this.toWords(hundreds, tens, unities);
         return hundredThreeNum=threeNum.trim();
     }
@@ -149,9 +153,11 @@ public class NumberReader implements Scanned {
         int hundreds = splitedNumber[(numeralsCount+TWO_MORE) - 6];
         int tens = splitedNumber[(numeralsCount+TWO_MORE) - 5];
         int unities = splitedNumber[(numeralsCount+TWO_MORE) - 4];
-        this.toWords(hundreds, tens, unities);
-        StringBuilder tN = new StringBuilder(threeNum);
         if ( hundreds==0 && tens==0 && unities==0) return thousandThreeNum = "";
+        this.toWords(hundreds, tens, unities);
+
+        StringBuilder tN = new StringBuilder(threeNum);
+
         if (threeNum.endsWith("один")) {
             tN.replace(threeNum.length()-4, threeNum.length(), (uniqueWords.get(1000).toString()));
             return thousandThreeNum=tN.toString();
@@ -172,6 +178,7 @@ public class NumberReader implements Scanned {
         int hundreds = splitedNumber[(numeralsCount+2) - 9];
         int tens = splitedNumber[(numeralsCount+2) - 8];
         int unities = splitedNumber[(numeralsCount+2) - 7];
+        if ( hundreds==0 && tens==0 && unities==0) return millionThreeNum = "";
         this.toWords(hundreds, tens, unities);
         StringBuilder tN = new StringBuilder(threeNum);
         if (threeNum.endsWith("один")) {

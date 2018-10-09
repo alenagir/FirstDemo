@@ -52,23 +52,28 @@ public class Main {
 
         // TASK 5: NUMERALS to WORDS
 
-//        try{
-//               NumberReader number = new NumberReader();
-//              System.out.println(number.getNumberInWords());
-//
-//        }catch (NumberFormatException e) {
-//            System.out.println(e.getMessage());
-//        }
+        try{
+               NumberReader number = new NumberReader();
+              System.out.println(number.getNumberInWords());
+
+        }catch (NumberFormatException e) {
+            System.out.println(e.getMessage());
+        }
         // TASK 6: LUCKY TICKETS
 
-        LuckyTickets tickets = new LuckyTickets();
-        tickets.calcTickets();
+//        LuckyTickets tickets = new LuckyTickets();
+//        tickets.calcTickets();
 
         // TASK 7: NUMERALS Sequence
 
 //        Sequence sequence=new Sequence();
 //        System.out.println(sequence.getSequence());
        // sequence.print();
+
+        // TASK 8: FIBONACCI
+
+         //Fibonacci.userDialog();
+
 
 
     }
