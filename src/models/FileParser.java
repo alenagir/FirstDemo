@@ -6,7 +6,7 @@ import java.io.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class FileParser {
+public class FileParser implements AutoCloseable{
     private static String filePATH;
     private String stringToFind;
     private int stringCount;
@@ -35,7 +35,6 @@ public class FileParser {
             }
             stringCount=stringCount+c;
         }
-
         fileRead.reset();
         return stringCount;
     }
@@ -52,7 +51,6 @@ public class FileParser {
             fileWrite = new BufferedWriter(new FileWriter(filePATH));
             fileWrite.write(text.toString());
             fileWrite.flush();
-
     }
 
     public static void userStart (){
@@ -78,4 +76,19 @@ public class FileParser {
     public String getStringToOverWrite() {
         return stringToOverWrite;
     }
+
+    @Override
+    public void close() throws IOException {
+            try{
+                if(fileRead !=null)
+                    fileRead.close();
+            }catch (IOException ex){
+            System.out.println(ex.getMessage());
+            }
+            finally{
+                fileRead.close();
+            }
+    }
+
 }
+

@@ -2,18 +2,15 @@ package service;
 
 public interface Printable {
 
+    public void print (int i);
 
-    static void print(int i){
-        if (i==1) System.out.println("The first is larger.");
-        if (i==-1) System.out.println("The second is larger.");
-        if (i==0) System.out.println("Might be equal within the tolerance in at least one of the parameters.");
-    }
-    default void print(String s){
-        if (s=="w1") System.out.println("width 1 = ");
-        if (s=="h1") System.out.println("height 1 = ");
-        if (s=="w2") System.out.println("width 2 = ");
-        if (s=="h2") System.out.println("height 2 = ");
-    }
+
+//    default void print(String s){
+//        if (s=="w1") System.out.println("width 1 = ");
+//        if (s=="h1") System.out.println("height 1 = ");
+//        if (s=="w2") System.out.println("width 2 = ");
+//        if (s=="h2") System.out.println("height 2 = ");
+//    }
     public void print(String s, int counter);
 
     static void startQuestion(){
@@ -26,5 +23,13 @@ public interface Printable {
 
     static void userTerminated(){
         System.out.println("The program is terminated by the user.");
+    }
+
+    static void createPolygon (){
+        System.out.println("Enter polygon parameters in the format: <Polygon name> <,> <length 1> <,> <length 2> <,> ...");
+    }
+
+    static void doesNotExist(){
+        System.out.println("This object does not exist!");
     }
 }

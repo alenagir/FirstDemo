@@ -45,7 +45,7 @@ public class Envelope implements Comparator, Printable {
                 ++envelopeCounter;
                 envelope2.setEnvelopeParam();
                 int compare = envelope1.compare(envelope1, envelope2);
-                Printable.print(compare);
+                envelope1.print(compare);
                 Printable.continueQuestion();
                 userAnswer = Scanned.scanToString().toLowerCase();
                 if (userAnswer.equals("no") || userAnswer.equals("n")) break;
@@ -73,6 +73,13 @@ public class Envelope implements Comparator, Printable {
         if (s=="w") System.out.println("width "+counter +" = ");
         if (s=="h") System.out.println("height "+counter +" = ");
 
+    }
+
+    @Override
+    public void print(int i){
+        if (i==1) System.out.println("The first is larger.");
+        if (i==-1) System.out.println("The second is larger.");
+        if (i==0) System.out.println("Might be equal within the tolerance in at least one of the parameters.");
     }
 
     public double getWidth() {
