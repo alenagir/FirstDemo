@@ -18,7 +18,7 @@ public interface Printable {
     }
 
     static void continueQuestion(){
-        System.out.println("Would you like to continue? yes(y)/no(n)");
+        System.out.println("\n\nWould you like to continue? yes(y)/no(n)");
     }
 
     static void userTerminated(){

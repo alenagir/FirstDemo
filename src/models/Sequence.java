@@ -23,6 +23,7 @@ public class Sequence {
             System.out.println(e.getMessage());
         }
         double first = 0;//First numeral in the sequence.
+
         first = Math.sqrt(minSquare);
         while (first%1!=0){
             minSquare=minSquare+1;
