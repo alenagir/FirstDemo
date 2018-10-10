@@ -9,7 +9,7 @@ public class Fibonacci {
     private static long range []={0,1};
     private static String userAnswer;
 
-
+    //First realization
     public static void userDialog() {
         //First setting borders
     try {
@@ -51,13 +51,15 @@ public class Fibonacci {
 
             //Calling the method for fibonacci series print
             calcFibonacci();
+
             Printable.continueQuestion();
-            userAnswer = Scanned.scanToString();
-            if (userAnswer.equals("no") || userAnswer.equals("n")) {
+            userAnswer = Scanned.scanToString().toLowerCase();
+
+            if (!userAnswer.equals("yes") && !userAnswer.equals("y")) {
                 Printable.userTerminated();
                 return;
             }
-        } while ((userAnswer.equals("yes") || userAnswer.equals("y")));
+        } while (userAnswer.equals("yes") || userAnswer.equals("y"));
 
         }catch (NumberFormatException e){
         System.out.println(e.getMessage());
@@ -90,5 +92,70 @@ public class Fibonacci {
         }
 
     }
+
+    //Second realization
+
+    public  void userDialog2() {
+        try {
+                do {
+                    System.out.println("To output by range type 1\nTo output by length type 2\n" +
+                            "To exit press any key\nEnter:");
+
+                    String choice = Scanned.scanToString();
+
+                    if (!choice.equals("1") && (!choice.equals("2"))) {
+                        Printable.userTerminated();
+                        return;
+                    }
+
+                    this.setRange(choice);
+
+                    System.out.printf("\nRange: %d - %d\n\n", range[0], range[1]);
+
+                    //Calling the method for fibonacci series print
+                    calcFibonacci();
+
+                    Printable.continueQuestion();
+                    userAnswer = Scanned.scanToString().toLowerCase();
+
+                    if (!userAnswer.equals("yes") && !userAnswer.equals("y")) {
+                        Printable.userTerminated();
+                        return;
+                    }
+                } while (userAnswer.equals("yes") || userAnswer.equals("y"));
+
+        } catch (NumberFormatException e) {
+                System.out.println(e.getMessage());
+            }
+    }
+
+
+
+    private void setRange (String choice){
+
+        if (choice.equals("1")) {
+
+            System.out.println("Enter MIN border of the range:");
+            range[0] = Scanned.scanToLong();
+            System.out.println("Enter MAX border of the range:");
+            range[1] = Scanned.scanToLong();
+            if (range[1] < range[0]) {
+                long tmp=range[1];
+                range[1] = range[0];
+                range[0]=tmp;
+            }
+
+        }
+        if (choice.equals("2")) {
+            System.out.println("Enter number length:");
+            long length = Scanned.scanToInteger();
+            range[0] = (long) Math.pow(10, length - 1);
+            range[1] = (long) Math.pow(10, length) - 1;
+            if (range[0] == 1) {
+                range[0] = 0;
+            }
+        }
+    }
+
 
 }

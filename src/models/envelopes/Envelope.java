@@ -15,14 +15,6 @@ public class Envelope implements Comparator, Printable {
 
     public Envelope() {}
 
-    private void setEnvelopeParam() {
-
-        this.print("w", (envelopeCounter%2)+1);
-        this.width = Scanned.scanToDouble();
-
-        this.print("h", envelopeCounter%2+1);
-        this.height = Scanned.scanToDouble();
-    }
 
     public static void userDialog() {
         do {
@@ -53,6 +45,15 @@ public class Envelope implements Comparator, Printable {
             } while ((userAnswer.equals("yes") || userAnswer.equals("y")));
         }
         Printable.userTerminated();
+    }
+
+    private void setEnvelopeParam() {
+
+        this.print("w", (envelopeCounter%2)+1);
+        this.width = Scanned.scanToDouble();
+
+        this.print("h", envelopeCounter%2+1);
+        this.height = Scanned.scanToDouble();
     }
 
 

@@ -1,4 +1,5 @@
 import models.*;
+import models.envelopes.Envelope;
 
 
 public class Main {
@@ -15,15 +16,13 @@ public class Main {
 //        }
 
         // Task2: Contain ENVELOPES
-        //First realization
+
 //        try {
 //        Envelope.userDialog();
 //        }catch (NumberFormatException e){
 //            System.out.println(e.getMessage());
 //        }
 
-//       //Second realization
-//       Envelopes.userDialog();
 
         //TASK 3. Triangles
 
@@ -71,9 +70,12 @@ public class Main {
 //        sequence.print();
 
         // TASK 8: FIBONACCI
-
+        //First realization
          Fibonacci.userDialog();
 
+        //Second realization
+//        Fibonacci fibonacci=new Fibonacci();
+//        fibonacci.userDialog2();
 
 
     }
