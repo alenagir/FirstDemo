@@ -1,17 +1,19 @@
 package service;
 
 
+import java.util.Scanner;
+
 public interface Scanned {
 
 
     static String scanToString (){
-        java.util.Scanner in = new java.util.Scanner(System.in);
+        Scanner in = new Scanner(System.in);
         String string = in.nextLine().trim();
         return string;
     }
 
     static Integer scanToInteger (){
-        java.util.Scanner in = new java.util.Scanner(System.in);
+        Scanner in = new Scanner(System.in);
         String string = in.nextLine().trim().replace("-", "");
         try {
             Integer integer = Integer.parseInt(string);
@@ -21,7 +23,7 @@ public interface Scanned {
         }
     }
     static Double scanToDouble (){
-        java.util.Scanner in = new java.util.Scanner(System.in);
+        Scanner in = new Scanner(System.in);
         String string = in.nextLine().trim().replace("-", "");
         try {
             Double aDouble = Double.parseDouble(string);
@@ -31,7 +33,7 @@ public interface Scanned {
         }
     }
     static Long scanToLong (){
-        java.util.Scanner in = new java.util.Scanner(System.in);
+       Scanner in = new Scanner(System.in);
         String string = in.nextLine().trim().replace("-", "");
         try {
             Long ln = Long.parseLong(string);
