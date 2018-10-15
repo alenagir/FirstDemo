@@ -1,6 +1,6 @@
 package models;
 
-import service.Scanned;
+import myExceptions.VariableEnterException;
 
 import java.util.ArrayList;
 
@@ -13,15 +13,23 @@ public class Sequence {
         array=new ArrayList<>();
     }
 
-    public ArrayList getSequence(){
-        try {
-            System.out.println("Enter a sequence length: ");
-            sequencelength = Scanned.scanToInteger();
-            System.out.println("Enter a minimal square: ");
-            minSquare = Scanned.scanToInteger();
-        }catch (NumberFormatException e){
-            System.out.println(e.getMessage());
+
+    public void setSequencelength(int sequencelength) throws VariableEnterException {
+        if(sequencelength<1){
+            throw new VariableEnterException("Sequence length must be > 1");
         }
+        this.sequencelength = sequencelength;
+    }
+
+    public void setMinSquare(int minSquare) throws VariableEnterException {
+        if(minSquare<1){
+            throw new VariableEnterException("Minimal square must be > 1");
+        }
+        this.minSquare = minSquare;
+    }
+
+    public ArrayList getSequence()  {
+
         double first = 0;//First numeral in the sequence.
 
         first = Math.sqrt(minSquare);
@@ -37,10 +45,9 @@ public class Sequence {
 
     public void print(){
         for (Integer numeral:array ) {
-            System.out.println(numeral.toString());
+            System.out.print(" "+numeral.toString());
         }
     }
-
 
 
 }

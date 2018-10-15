@@ -1,11 +1,5 @@
 package models;
 
-import service.Printable;
-import service.Scanned;
-
-import java.util.Comparator;
-import java.util.Objects;
-
 public class Envelope {
     private double side_1;
     private double side_2;

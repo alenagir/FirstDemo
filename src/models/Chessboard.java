@@ -1,19 +1,22 @@
 package models;
 
-import service.Scanned;
+import myExceptions.VariableEnterException;
 
 public class Chessboard {
     private int width;
     private int height;
     private String[] board;
-    private String s1 = "*"; // Better in POOL or String object in the method???????
+    private String s1 = "*";
     private String s2 = " ";
 
     public Chessboard() {}
 
-    public void setDimensions(int height, int width) {
-        this.width = width;
-        this.height = height;
+    public void setDimensions(int height, int width) throws VariableEnterException {
+       if(width<=0 || height<=0){
+           throw new VariableEnterException("A dimension must be > 0");
+       }
+           this.width = width;
+           this.height = height;
     }
 
 

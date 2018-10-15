@@ -1,5 +1,6 @@
 package models;
 
+import myExceptions.VariableEnterException;
 import service.Scanned;
 
 import java.util.Collections;
@@ -24,14 +25,15 @@ public class NumberReader implements Scanned {
     int tens;
     int unities;
 
+    public NumberReader(){}
 
+    public NumberReader(Integer enteredNumber) {
+        this.enteredNumber = enteredNumber;
+    }
 
-    public NumberReader() {
-        System.out.print("Enter a number from 0 to 999 999 999:\n");
-        this.enteredNumber = Scanned.scanToInteger();
-        //(int) Math.ceil(Math.log10(enteredNumber + 0.5))  counts numerals in the entered number
-        numeralsCount = (int) Math.ceil(Math.log10(enteredNumber + 0.5));
-        splitedNumber = new Integer[numeralsCount + TWO_MORE];
+    public void setEnteredNumber(Integer enteredNumber) throws VariableEnterException {
+        if(enteredNumber<0) throw new VariableEnterException("Enter positive number!");
+        this.enteredNumber = enteredNumber;
     }
 
     private static final Map uniqueWords;
@@ -91,6 +93,9 @@ public class NumberReader implements Scanned {
     }
 
     private void fillSplitedNumber() {
+        //(int) Math.ceil(Math.log10(enteredNumber + 0.5))  counts numerals in the entered number
+        numeralsCount = (int) Math.ceil(Math.log10(enteredNumber + 0.5));
+        splitedNumber = new Integer[numeralsCount + TWO_MORE];
         for (int i = (numeralsCount + TWO_MORE) - 1; i >= 0; i--) {
             splitedNumber[i] = enteredNumber % 10;
             enteredNumber /= 10;

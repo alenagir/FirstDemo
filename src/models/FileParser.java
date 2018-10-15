@@ -14,6 +14,7 @@ public class FileParser implements AutoCloseable{
     public BufferedReader fileRead;
     public BufferedWriter fileWrite;
 
+    public FileParser(){}
 
     public FileParser( String filePATH) throws IOException{
         fileRead = new BufferedReader(new FileReader(this.filePATH = filePATH));
@@ -28,7 +29,7 @@ public class FileParser implements AutoCloseable{
         String line;
         fileRead.mark(2000000);
         while ((line=fileRead.readLine())!= null){
-            matcher = pattern.matcher(line);
+            matcher = pattern.matcher(line.toLowerCase());
             int c=0;
             while(matcher.find()) {
                 c++;
@@ -40,7 +41,7 @@ public class FileParser implements AutoCloseable{
     }
 
     public void stringOverWrite (String stringToFind, String stringToOverWrite) throws IOException{
-        if (stringToOverWrite==null || stringToOverWrite.equals("")){
+        if (stringToOverWrite==null){
             return;
         }
         StringBuilder text = new StringBuilder();
@@ -49,14 +50,11 @@ public class FileParser implements AutoCloseable{
             text.append(line.replace(stringToFind, stringToOverWrite)).append("\r\n");
         }
             fileWrite = new BufferedWriter(new FileWriter(filePATH));
+
             fileWrite.write(text.toString());
             fileWrite.flush();
     }
 
-    public static void userStart (){
-        System.out.println("Enter the file path: ");
-        filePATH=Scanned.scanToString();
-    }
 
     public  void enterStrings (){
         System.out.println("Enter the substring to be counted: ");
