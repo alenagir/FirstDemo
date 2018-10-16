@@ -11,9 +11,13 @@ public class Chessboard {
 
     public Chessboard() {}
 
+    public String[] getBoard() {
+        return board;
+    }
+
     public void setDimensions(int height, int width) throws VariableEnterException {
-       if(width<=0 || height<=0){
-           throw new VariableEnterException("A dimension must be > 0");
+       if(width<=1 || height<=1){
+           throw new VariableEnterException("A dimension must be > 1");
        }
            this.width = width;
            this.height = height;

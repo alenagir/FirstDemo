@@ -3,13 +3,21 @@ package service;
 import models.TicketsPack;
 
 public class LuckyTickets {
-    TicketsPack ticketsPack;
-    String ticketsAnswer;
 
+    String ticketsAnswer;
+    private int luckyTicketsCount1 = 0;
+    private int luckyTicketsCount2 = 0;
+
+    public int getLuckyTicketsCount1() {
+        return luckyTicketsCount1;
+    }
+
+    public int getLuckyTicketsCount2() {
+        return luckyTicketsCount2;
+    }
 
     public String countTickets(TicketsPack ticketsPack)  {
-        int luckyTicketsCount1 = 0;
-        int luckyTicketsCount2 = 0;
+
         for (int number = ticketsPack.getMinNumber(); number <= ticketsPack.getMaxNumber(); number++) {
             if (checkTicket1(number)) {
                 luckyTicketsCount1++;
@@ -32,12 +40,13 @@ public class LuckyTickets {
         return ticketsAnswer;
     }
 
-
+        //Gets each numeral in ticket number
         private int getNumerals(int number, int index)  {
             return number % (int)Math.pow(10, index) / (int)Math.pow(10, index - 1);
         }
 
-        private boolean checkTicket1(int number) {
+        public boolean checkTicket1(int number) {
+
             int sum1 = 0;
             int sum2 = 0;
             for (int index = 1; index <= 6; index++) {
@@ -49,7 +58,8 @@ public class LuckyTickets {
             return  sum1 == sum2;
         }
 
-        private boolean checkTicket2(int number) {
+        public boolean checkTicket2(int number) {
+
             int sum1 = 0;
             int sum2 = 0;
 

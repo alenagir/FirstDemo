@@ -17,12 +17,12 @@ public class Main {
                Chessboard chessboard = new Chessboard();
                 do {
                     try {
-                        System.out.println("Enter the chessboard width:\t");
-                        int width = Scanned.scanToInteger();
                         System.out.println("Enter the chessboard height:\t");
                         int height = Scanned.scanToInteger();
+                        System.out.println("Enter the chessboard width:\t");
+                        int width = Scanned.scanToInteger();
 
-                        chessboard.setDimensions(width, height);
+                        chessboard.setDimensions(height, width);
                         chessboard.printChessboard();
 
                     }catch (NumberFormatException e){
@@ -68,16 +68,16 @@ public class Main {
                     }while (userAnswer.equals("yes") || userAnswer.equals("y"));
                 break;
             case "3":
-                Triangle triangle=new Triangle();
+
                 TriangleSet triangleSet = new TriangleSet(compareBySquare);
 
                 System.out.println("\nEnter triangle parameters in the format: <Name><,><side 1><,><side 2><,><side 3>" );
                 do{
-
                 String userEnter = Scanned.scanToString();
-
                 try {
+
                     triangleSet.addTriangle(userEnter);
+
                 }catch (TriangleException te){
                     System.out.println(te.getMessage());
                 }catch (NumberFormatException ne){

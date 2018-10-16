@@ -1,0 +1,41 @@
+1. 
+@ParameterizedTest
+    @CsvFileSource(resources = "D://JavaTasks//First_Demo//CSVSource//chessboardTest.csv", numLinesToSkip = 1)
+    void CsvFileResourceGetChessboard(String string) {
+        assertEquals(string);
+    }
+
+
+2.
+  @ExtendWith(IgnoreVariableEnterExceptionExtension.class)
+    @Test
+    void NegativeIgnorExceptionGetChessboard() throws VariableEnterException {
+        chessboard.setDimensions(2, 1);
+        String exp[]={"* "," *"};
+        String act[]=chessboard.getChessboard();
+        assertArrayEquals(exp, act);
+    }
+
+    public class IgnoreVariableEnterExceptionExtension implements TestExecutionExceptionHandler {
+
+        @Override
+        public void handleTestExecutionException(ExtensionContext context, Throwable throwable)
+                throws Throwable {
+
+            if (throwable instanceof VariableEnterException) {
+                return;
+            }
+            throw throwable;
+        }
+    }
+
+3.
+@Test
+    void exceptionTesting() {
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
+            throw new IllegalArgumentException("a message");
+        });
+        assertEquals("a message", exception.getMessage());
+    }
+
+4.

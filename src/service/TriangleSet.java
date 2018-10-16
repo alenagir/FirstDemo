@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class TriangleSet {
-    private Set<Triangle> triangleSet;
+    public Set<Triangle> triangleTreeSet;
     private Triangle triangle;
 
     public String DEFAULT_NAME="Triangle";
@@ -16,12 +16,13 @@ public class TriangleSet {
 
 
     public TriangleSet(Comparator comparator){
-        triangleSet = new TreeSet<>(comparator.reversed());
+        triangleTreeSet = new TreeSet<>(comparator.reversed());
     }
 
-    public void addTriangle(String userEnter) throws TriangleException {
+    public Set addTriangle(String userEnter) throws TriangleException {
         createTriangle(userEnter);
-        triangleSet.add(triangle);
+        triangleTreeSet.add(triangle);
+        return triangleTreeSet;
     }
 
     public Triangle createTriangle (String userEnter) throws TriangleException {
@@ -52,7 +53,7 @@ public class TriangleSet {
     }
 
     public void printTriangles(){
-        for(Triangle triangle : triangleSet){
+        for(Triangle triangle : triangleTreeSet){
             System.out.printf("\n[%s]: %.2f cm^2",triangle.getName(), triangle.getSquare());
         }
     }
