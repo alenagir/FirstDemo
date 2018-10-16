@@ -17,7 +17,8 @@ public class LuckyTickets {
     }
 
     public String countTickets(TicketsPack ticketsPack)  {
-
+        luckyTicketsCount1 = 0;
+        luckyTicketsCount2 = 0;
         for (int number = ticketsPack.getMinNumber(); number <= ticketsPack.getMaxNumber(); number++) {
             if (checkTicket1(number)) {
                 luckyTicketsCount1++;
@@ -36,6 +37,11 @@ public class LuckyTickets {
             ticketsAnswer="Lucky tickets method 1: " + luckyTicketsCount1+
                     "\nLucky tickets method 2: " + luckyTicketsCount2+
                     "\nMethod 2 is luckier!";
+        }
+        if(luckyTicketsCount1==luckyTicketsCount2) {
+            ticketsAnswer = "Lucky tickets method 1: " + luckyTicketsCount1 +
+                    "\nLucky tickets method 2: " + luckyTicketsCount2 +
+                    "\nBoth lucky!";
         }
         return ticketsAnswer;
     }
