@@ -55,7 +55,7 @@ class LuckyTicketsTest {
 
 
     // @CsvSource()
-    
+
     @DisplayName("Diapason 0-999999 gives 55252 'lucky' tickets")
     @ParameterizedTest
     @CsvSource({"0,999999"})
@@ -76,17 +76,17 @@ class LuckyTicketsTest {
         assertEquals(55252, luckyTickets.getLuckyTicketsCount2());
     }
 
-    @DisplayName("Count in diapason gives a message about 'luckier' method")
+    @DisplayName("Count in diapason gives a message. For 1: 101011 and 101020. For 2: 101013")
     @ParameterizedTest
-    @CsvSource({"101011,101020"})
-    void countAllDiapasonWithResultMessageFirstLucky(Integer int1, Integer int2) throws VariableEnterException{
-        ticketsPack.setMinNumber(int1);
-        ticketsPack.setMaxNumber(int2);
+    @CsvSource({"101011,101020,2,1"})
+    void countAllDiapasonWithResultMessageFirstLucky(Integer min, Integer max, Integer result1, Integer result2) throws VariableEnterException{
+        ticketsPack.setMinNumber(min);
+        ticketsPack.setMaxNumber(max);
 
         String actual =luckyTickets.countTickets(ticketsPack);
 
-        int luckyTicketsCount1=luckyTickets.getLuckyTicketsCount1();
-        int luckyTicketsCount2=luckyTickets.getLuckyTicketsCount2();
+        int luckyTicketsCount1=result1;
+        int luckyTicketsCount2=result2;
 
         String expected="Lucky tickets method 1: " + luckyTicketsCount1+
                 "\nLucky tickets method 2: " + luckyTicketsCount2+
@@ -97,15 +97,15 @@ class LuckyTicketsTest {
 
     @DisplayName("Count in diapason gives a message about 'luckier' method")
     @ParameterizedTest
-    @CsvSource({"0,999999"})
-    void countAllDiapasonWithResultMessageBothLucky(Integer int1, Integer int2) throws VariableEnterException{
-        ticketsPack.setMinNumber(int1);
-        ticketsPack.setMaxNumber(int2);
+    @CsvSource({"0,999999,55252"})
+    void countAllDiapasonWithResultMessageBothLucky(Integer min, Integer max, Integer result) throws VariableEnterException{
+        ticketsPack.setMinNumber(min);
+        ticketsPack.setMaxNumber(max);
 
         String actual =luckyTickets.countTickets(ticketsPack);
 
-        int luckyTicketsCount1=luckyTickets.getLuckyTicketsCount1();
-        int luckyTicketsCount2=luckyTickets.getLuckyTicketsCount2();
+        int luckyTicketsCount1=result;
+        int luckyTicketsCount2=result;
 
         String expected="Lucky tickets method 1: " + luckyTicketsCount1 +
                 "\nLucky tickets method 2: " + luckyTicketsCount2 +
