@@ -16,9 +16,12 @@ public class LuckyTickets {
         return luckyTicketsCount2;
     }
 
+    //Method invoked from Main
     public String countTickets(TicketsPack ticketsPack)  {
         luckyTicketsCount1 = 0;
         luckyTicketsCount2 = 0;
+
+        //Sequential increase in ticket number:
         for (int number = ticketsPack.getMinNumber(); number <= ticketsPack.getMaxNumber(); number++) {
             if (checkTicket1(number)) {
                 luckyTicketsCount1++;
@@ -51,6 +54,7 @@ public class LuckyTickets {
             return number % (int)Math.pow(10, index) / (int)Math.pow(10, index - 1);
         }
 
+        //Simple method count
         public boolean checkTicket1(int number) {
 
             int sum1 = 0;
@@ -64,6 +68,7 @@ public class LuckyTickets {
             return  sum1 == sum2;
         }
 
+        //Complicated method count
         public boolean checkTicket2(int number) {
 
             int sum1 = 0;

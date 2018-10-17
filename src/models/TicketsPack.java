@@ -12,6 +12,10 @@ public class TicketsPack {
     public int getMinNumber() {
         return minNumber;
     }
+    public int getMaxNumber() {
+        return maxNumber;
+    }
+
 
     public void setMinNumber(int minNumber) throws VariableEnterException {
         if (minNumber < 0) {
@@ -20,9 +24,6 @@ public class TicketsPack {
         this.minNumber = minNumber;
     }
 
-    public int getMaxNumber() {
-        return maxNumber;
-    }
 
     public void setMaxNumber(int maxNumber) throws VariableEnterException {
         if (maxNumber > MAX_NUMBER) {
@@ -33,9 +34,6 @@ public class TicketsPack {
 
     @Override
     public String toString() {
-        return "TicketsPack{" +
-                "minNumber=" + minNumber +
-                ", maxNumber=" + maxNumber +
-                '}';
+        return  "minNumber=" + minNumber + ", maxNumber=" + maxNumber;
     }
 }

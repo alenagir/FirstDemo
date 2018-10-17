@@ -89,7 +89,7 @@ public class Main {
                 triangleSet.printTriangles();
                 break;
             case "4":
-                //"C://Users//Alena//Desktop//text.txt"
+                // D://JavaTasks//First_Demo//CSVSource//text.txt
                 System.out.println("Enter the file path: ");
                 String filePATH=Scanned.scanToString();
                 FileParser fileParser=null;

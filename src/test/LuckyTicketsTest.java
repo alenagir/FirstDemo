@@ -16,21 +16,11 @@ class LuckyTicketsTest {
     TicketsPack ticketsPack=new TicketsPack();
     LuckyTickets luckyTickets=new LuckyTickets();
 
-                //With ValueSource
 
     @DisplayName("Symmetric numbers")
     @ParameterizedTest
     @ValueSource(ints = {0,101101,885588,999999})
-    void countSymmetricNumberTickets(Integer integer) throws VariableEnterException{
-        ticketsPack.setMinNumber(integer);
-        ticketsPack.setMaxNumber(integer);
-        assertEquals(luckyTickets.getLuckyTicketsCount1(), luckyTickets.getLuckyTicketsCount2());
-    }
-
-    @DisplayName("Symmetric numbers")
-    @ParameterizedTest
-    @ValueSource(ints = {0,101101,885588,999999})
-    void trueCheckTicket_1_SymmetricSource(Integer integer) throws VariableEnterException {
+    void trueCheckTicket_1_2_SymmetricSource(Integer integer) throws VariableEnterException {
         assertTrue(luckyTickets.checkTicket1(integer));
         assertTrue(luckyTickets.checkTicket2(integer));
     }
@@ -38,43 +28,39 @@ class LuckyTicketsTest {
 
     @DisplayName("Asymmetric numbers")
     @ParameterizedTest
-    @ValueSource(ints = {1,123456,999000,990999})
-    void falseCheckTicket_1_AsymmetricSource(Integer integer) throws VariableEnterException {
+    @ValueSource(ints = {1,2,3,123456,999000,990999})
+    void falseCheckTicket_1_2_AsymmetricSource(Integer integer) throws VariableEnterException {
         assertFalse(luckyTickets.checkTicket1(integer));
         assertFalse(luckyTickets.checkTicket2(integer));
     }
 
 
-    @DisplayName("Asymmetric numbers")
+
+    @DisplayName("For 1: 101011 and 101020. For 2: 101013 and 101024")
     @ParameterizedTest
-    @ValueSource(ints = {1,2,3,4,5})
-    void falseCheckTicket_1_2_AsymmetricSource(Integer integer) {
-        assertFalse(luckyTickets.checkTicket1(integer));
-        assertFalse(luckyTickets.checkTicket2(integer));
+    @CsvSource({"101011,101024"})
+    void luckyTicketCount_1_2(Integer min, Integer max) throws VariableEnterException{
+        ticketsPack.setMinNumber(min);
+        ticketsPack.setMaxNumber(max);
+        luckyTickets.countTickets(ticketsPack);
+
+        assertEquals(2, luckyTickets.getLuckyTicketsCount1());
+        assertEquals(2, luckyTickets.getLuckyTicketsCount2());
     }
 
 
-    // @CsvSource()
 
     @DisplayName("Diapason 0-999999 gives 55252 'lucky' tickets")
     @ParameterizedTest
     @CsvSource({"0,999999"})
-    void countAllDiapasonTicketsFrom_0_Method_1(Integer int1, Integer int2) throws VariableEnterException{
+    void countAllDiapasonTicketsMethod_1_2(Integer int1, Integer int2) throws VariableEnterException{
         ticketsPack.setMinNumber(int1);
         ticketsPack.setMaxNumber(int2);
         luckyTickets.countTickets(ticketsPack);
         assertEquals(55252, luckyTickets.getLuckyTicketsCount1());
-    }
-
-    @DisplayName("Diapason 0-999999 gives 55252 'lucky' tickets")
-    @ParameterizedTest
-    @CsvSource({"0,999999"})
-    void countAllDiapasonTicketsFrom_0_Method_2(Integer int1, Integer int2) throws VariableEnterException{
-        ticketsPack.setMinNumber(int1);
-        ticketsPack.setMaxNumber(int2);
-        luckyTickets.countTickets(ticketsPack);
         assertEquals(55252, luckyTickets.getLuckyTicketsCount2());
     }
+
 
     @DisplayName("Count in diapason gives a message. For 1: 101011 and 101020. For 2: 101013")
     @ParameterizedTest
