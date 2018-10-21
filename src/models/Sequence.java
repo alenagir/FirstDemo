@@ -22,24 +22,28 @@ public class Sequence {
     }
 
     public void setMinSquare(int minSquare) throws VariableEnterException {
-        if(minSquare<1){
-            throw new VariableEnterException("Minimal square must be > 1");
+        if(minSquare<0){
+            throw new VariableEnterException("Minimal square must be > 0");
         }
         this.minSquare = minSquare;
     }
 
-    public ArrayList getSequence()  {
+    public ArrayList getArray(){
+        return this.array;
+    }
 
+    public ArrayList getSequence()  {
+        array.clear(); //To clear arrayList after previous user cycle
         double first = 0;//First numeral in the sequence.
 
         first = Math.sqrt(minSquare);
-        while (first%1!=0){
-            minSquare=minSquare+1;
-            first = Math.sqrt(minSquare);
-        };
+        if (first%1!=0){
+            first = Math.ceil(first);//Rounds up to the nearest bigger number
+        }
 
-        for(int i=(int) first; i<first+sequencelength; i++)
-            array.add(i);
+        for(int i=(int) first, j=0; i<first+sequencelength; i++, j++) {
+            array.add(j,i);
+        }
         return array;
     }
 

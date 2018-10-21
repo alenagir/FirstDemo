@@ -9,31 +9,44 @@ import java.util.Map;
 
 public class NumberReader implements Scanned {
 
-    private Integer enteredNumber;
-    private Integer splitedNumber[]; // Array of numerals from enteredNumber
-    private int numeralsCount;
+    private int enteredNumber;
+    private int BILLION=9;// Currently the program processes up to 999 999 999
+    private int splitedNumber[]=new int[BILLION]; // Array of numerals from enteredNumber
+    private int numeralsCount; //Number of digits in the entredNumber
+    //Digit order D in the enteredNumber and its position  in the splitedNumber[]
+    int D_1=8;
+    int D_2=7;
+    int D_3=6;
+    int D_4=5;
+    int D_5=4;
+    int D_6=3;
+    int D_7=2;
+    int D_8=1;
+    int D_9=0;
+
     private String threeNum=new String(); // Repetitive sequence of words in each group of three numerals, i.e.
                                            // hundred, thousand, million
-    private String hundredThreeNum=new String("");
-    private String thousandThreeNum=new String("");
-    private String millionThreeNum=new String("");
+    private String hundredThreeNum=new String("");//sequence of words of Digits D_1, D_2, D_3
+    private String thousandThreeNum=new String("");//sequence of words of Digits D_4, D_5, D_6
+    private String millionThreeNum=new String("");//sequence of words of Digits D_7, D_8, D_9
     private String numberInWords; // Result to display
-    // To avoid NullPointerException in case the user entered less than three needed numerals:
-    int TWO_MORE=2;
-    // Numerals in the sequence to transform into words:
+
+    // Numerals in the sequence of three to transform into words:
     int hundreds;
     int tens;
     int unities;
 
     public NumberReader(){}
 
-    public NumberReader(Integer enteredNumber) {
+    public NumberReader(int enteredNumber) {
         this.enteredNumber = enteredNumber;
+        numeralsCount = (int) Math.ceil(Math.log10(enteredNumber + 0.5));
     }
 
-    public void setEnteredNumber(Integer enteredNumber) throws VariableEnterException {
-        if(enteredNumber<0) throw new VariableEnterException("Enter positive number!");
-        this.enteredNumber = enteredNumber;
+    public void setEnteredNumber(int enteredNumber) {
+       this.enteredNumber = enteredNumber;
+        numeralsCount = (int) Math.ceil(Math.log10(enteredNumber + 0.5));
+        //(int) Math.ceil(Math.log10(enteredNumber + 0.5))  counts numerals in the entered number
     }
 
     private static final Map uniqueWords;
@@ -66,7 +79,7 @@ public class NumberReader implements Scanned {
         map.put(3000, " тысячи ");
         map.put(5000, " тысяч ");
         map.put(1E6, " миллион ");
-        map.put(2E6, " миллионa ");
+        map.put(2E6, " миллиона ");
         map.put(5E6, " миллионов ");
 
         uniqueWords = Collections.unmodifiableMap(map);
@@ -77,32 +90,31 @@ public class NumberReader implements Scanned {
         if (enteredNumber==0) return "ноль";
 
         this.fillSplitedNumber();
+
         this.hundredToWords();
+
         if (numeralsCount>3) {
             this.thousandToWords();
         }
         if (numeralsCount>6) {
             this.millionToWords();
         }
-        //Not to output "ноль" if there is millions:
-        if ( thousandThreeNum.equals("") && thousandThreeNum.equals("") && hundredThreeNum.equals("")) {
-            hundredThreeNum.equals("ноль");
-        }
+
+//        if ( thousandThreeNum.equals("") && thousandThreeNum.equals("") && hundredThreeNum.equals("")) {
+//            hundredThreeNum.equals("ноль");
+//        }
         numberInWords=millionThreeNum.concat(thousandThreeNum).concat(hundredThreeNum).trim();
         return numberInWords;
     }
 
     private void fillSplitedNumber() {
-        //(int) Math.ceil(Math.log10(enteredNumber + 0.5))  counts numerals in the entered number
-        numeralsCount = (int) Math.ceil(Math.log10(enteredNumber + 0.5));
-        splitedNumber = new Integer[numeralsCount + TWO_MORE];
-        for (int i = (numeralsCount + TWO_MORE) - 1; i >= 0; i--) {
+        for (int i = BILLION - 1; i >= 0; i--) {
             splitedNumber[i] = enteredNumber % 10;
             enteredNumber /= 10;
         }
     }
 
-    private void toWords(int hundreds, int tens, int unities) {
+    private String repetitiveSequenceToWords(int hundreds, int tens, int unities) {
 
         if ( hundreds < 5) {
             threeNum = (uniqueWords.get(hundreds * 100).toString());
@@ -121,45 +133,44 @@ public class NumberReader implements Scanned {
             threeNum = String.join(" ",  threeNum,
                     (uniqueWords.get(tens).toString()).concat(uniqueWords.get(50).toString()));
         }
-        if ((tens==0 || tens>1) && unities!=0) {
+        if (tens!=1 && unities!=0) {
             threeNum = String.join(" ",  threeNum, (uniqueWords.get(unities).toString()));
             if (unities == 4) {
-                threeNum =  threeNum.concat("e");
+                threeNum =  threeNum.concat("е");
             }
             if (unities > 4) {
                 threeNum =  threeNum.concat("ь");
             }
         }
         if (tens == 1) {
-            if (unities != 0 && unities != 2) {
-                threeNum = String.join(" ", threeNum, (uniqueWords.get(unities).toString()).
-                        concat(uniqueWords.get(11).toString()));
-            }
             if (unities == 2) {
-                threeNum = String.join(" ", threeNum, (uniqueWords.get(12).toString()));
+                return threeNum = String.join(" ", threeNum, (uniqueWords.get(12).toString())).trim();
             }
             if (unities == 0) {
-                threeNum = String.join(" ",  threeNum, (uniqueWords.get(10).toString()));
+               return threeNum = String.join(" ",  threeNum, (uniqueWords.get(10).toString())).trim();
             }
+            threeNum = String.join(" ", threeNum, (uniqueWords.get(unities).toString()).
+                    concat(uniqueWords.get(11).toString()));
         }
+        return threeNum=threeNum.trim();
     }
 
 
     private String hundredToWords() {
-        int hundreds = splitedNumber[(numeralsCount+TWO_MORE) - 3];
-        int tens = splitedNumber[(numeralsCount+TWO_MORE) - 2];
-        int unities = splitedNumber[(numeralsCount+TWO_MORE) - 1];
+        int hundreds = splitedNumber[D_3];
+        int tens = splitedNumber[D_2];
+        int unities = splitedNumber[D_1];
         if ( hundreds==0 && tens==0 && unities==0) return hundredThreeNum = "";
-        this.toWords(hundreds, tens, unities);
-        return hundredThreeNum=threeNum.trim();
+        this.repetitiveSequenceToWords(hundreds, tens, unities);
+        return hundredThreeNum=threeNum;
     }
 
     private String thousandToWords() {
-        int hundreds = splitedNumber[(numeralsCount+TWO_MORE) - 6];
-        int tens = splitedNumber[(numeralsCount+TWO_MORE) - 5];
-        int unities = splitedNumber[(numeralsCount+TWO_MORE) - 4];
+        int hundreds = splitedNumber[D_6];
+        int tens = splitedNumber[D_5];
+        int unities = splitedNumber[D_4];
         if ( hundreds==0 && tens==0 && unities==0) return thousandThreeNum = "";
-        this.toWords(hundreds, tens, unities);
+        this.repetitiveSequenceToWords(hundreds, tens, unities);
 
         StringBuilder tN = new StringBuilder(threeNum);
 
@@ -171,7 +182,7 @@ public class NumberReader implements Scanned {
             tN.replace(threeNum.length()-3, threeNum.length(), (uniqueWords.get(2000).toString()));
            return thousandThreeNum=tN.toString();
         }
-        if (threeNum.endsWith("три") || threeNum.endsWith("четыре") ) {
+        if (threeNum.endsWith("три") || threeNum.endsWith("четыре")) {
             tN.append(uniqueWords.get(3000).toString());
            return thousandThreeNum=tN.toString();
         }
@@ -180,12 +191,14 @@ public class NumberReader implements Scanned {
     }
 
     private String millionToWords() {
-        int hundreds = splitedNumber[(numeralsCount+2) - 9];
-        int tens = splitedNumber[(numeralsCount+2) - 8];
-        int unities = splitedNumber[(numeralsCount+2) - 7];
+        int hundreds = splitedNumber[D_9];
+        int tens = splitedNumber[D_8];
+        int unities = splitedNumber[D_7];
         if ( hundreds==0 && tens==0 && unities==0) return millionThreeNum = "";
-        this.toWords(hundreds, tens, unities);
+        this.repetitiveSequenceToWords(hundreds, tens, unities);
+
         StringBuilder tN = new StringBuilder(threeNum);
+
         if (threeNum.endsWith("один")) {
             tN.append(uniqueWords.get(1E6).toString());
             return millionThreeNum=tN.toString();

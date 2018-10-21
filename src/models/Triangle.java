@@ -1,6 +1,6 @@
 package models;
 
-import myExceptions.TriangleException;
+import myExceptions.VariableEnterException;
 
 import java.util.Objects;
 
@@ -11,19 +11,26 @@ public class Triangle {
     private double side_3;
     private double square;
 
-
-
     public Triangle (){}
+
+    public Triangle (String name, double side_1, double side_2, double side_3, double square){
+        this.name=name;
+        this.side_1=side_1;
+        this.side_2=side_2;
+        this.side_3=side_3;
+        this.square=square;
+    }
 
     public void setName(String name){
         this.name=name;
     }
-    public void setSides (double side_1, double side_2, double side_3) throws TriangleException {
+
+    public void setSides (double side_1, double side_2, double side_3) throws VariableEnterException {
         if (side_1<=0 || side_2<=0 || side_3<=0) {
-            throw new TriangleException("Side length must be > 0");
+            throw new VariableEnterException("Side length must be > 0");
         }
         if ((side_1+side_2 <= side_3) || (side_1+side_3 <= side_2) || (side_3+side_2 <= side_1)){
-            throw new TriangleException("Triangle with two sides sum less or equal the third side does not exist");
+            throw new VariableEnterException("Triangle with two sides sum less or equal the third side does not exist");
 
         }
         else {

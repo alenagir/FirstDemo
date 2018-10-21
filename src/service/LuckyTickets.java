@@ -7,6 +7,7 @@ public class LuckyTickets {
     String ticketsAnswer;
     private int luckyTicketsCount1 = 0;
     private int luckyTicketsCount2 = 0;
+    Integer digits[]=new Integer[6];
 
     public int getLuckyTicketsCount1() {
         return luckyTicketsCount1;
@@ -23,10 +24,13 @@ public class LuckyTickets {
 
         //Sequential increase in ticket number:
         for (int number = ticketsPack.getMinNumber(); number <= ticketsPack.getMaxNumber(); number++) {
-            if (checkTicket1(number)) {
+
+            digits=getNumerals(number);//Returns the array of numerals in the ticket number
+
+            if (checkTicket1(digits)) {
                 luckyTicketsCount1++;
             }
-            if (checkTicket2(number)){
+            if (checkTicket2(digits)){
                 luckyTicketsCount2++;
             }
         }
@@ -49,36 +53,39 @@ public class LuckyTickets {
         return ticketsAnswer;
     }
 
-        //Gets each numeral in ticket number
-        private int getNumerals(int number, int index)  {
-            return number % (int)Math.pow(10, index) / (int)Math.pow(10, index - 1);
+        //Returns the array of numerals in the ticket number
+        public Integer[] getNumerals(int number)  {
+            for(int i=6;i>0;i--){
+                digits[i-1]=number % (int)Math.pow(10, i) / (int)Math.pow(10, i - 1);
+            }
+            return digits;
         }
 
         //Simple method count
-        public boolean checkTicket1(int number) {
+        public boolean checkTicket1(Integer [] digits) {
 
             int sum1 = 0;
             int sum2 = 0;
-            for (int index = 1; index <= 6; index++) {
-                if (index <= 3)
-                    sum1 = sum1 + getNumerals(number, index);
+            for (int index = 0; index < 6; index++) {
+                if (index <= 2)
+                    sum1 = sum1 + digits[index];
                 else
-                    sum2 = sum2 + getNumerals(number, index);
+                    sum2 = sum2 + digits[index];
             }
             return  sum1 == sum2;
         }
 
         //Complicated method count
-        public boolean checkTicket2(int number) {
+        public boolean checkTicket2(Integer [] digits) {
 
             int sum1 = 0;
             int sum2 = 0;
 
-            for (int index = 1; index <= 6; index++) {
+            for (int index = 0; index < 6; index++) {
                 if (index % 2 == 0)
-                    sum1 = sum1 + getNumerals(number, index);
+                    sum1 = sum1 + digits[index];
                 else
-                    sum2 = sum2 + getNumerals(number, index);
+                    sum2 = sum2 + digits[index];
             }
             return  sum1 == sum2;
         }

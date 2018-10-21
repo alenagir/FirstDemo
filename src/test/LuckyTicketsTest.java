@@ -4,6 +4,7 @@ import models.TicketsPack;
 import myExceptions.VariableEnterException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -17,25 +18,32 @@ class LuckyTicketsTest {
     LuckyTickets luckyTickets=new LuckyTickets();
 
 
-    @DisplayName("Symmetric numbers")
+    @Tag("baseMethod")
+    @DisplayName("Soft assert: Symmetric numbers")
     @ParameterizedTest
     @ValueSource(ints = {0,101101,885588,999999})
     void trueCheckTicket_1_2_SymmetricSource(Integer integer) throws VariableEnterException {
-        assertTrue(luckyTickets.checkTicket1(integer));
-        assertTrue(luckyTickets.checkTicket2(integer));
+        Integer digits[]=luckyTickets.getNumerals(integer);
+        assertAll("assertTrue",
+                () ->  assertTrue(luckyTickets.checkTicket1(digits)),
+                () -> assertTrue(luckyTickets.checkTicket2(digits))
+        );
     }
 
-
-    @DisplayName("Asymmetric numbers")
+    @Tag("baseMethod")
+    @DisplayName("Soft assert: Asymmetric numbers")
     @ParameterizedTest
     @ValueSource(ints = {1,2,3,123456,999000,990999})
     void falseCheckTicket_1_2_AsymmetricSource(Integer integer) throws VariableEnterException {
-        assertFalse(luckyTickets.checkTicket1(integer));
-        assertFalse(luckyTickets.checkTicket2(integer));
+        Integer digits[]=luckyTickets.getNumerals(integer);
+        assertAll("assertFalse",
+                () ->  assertFalse(luckyTickets.checkTicket1(digits)),
+                () -> assertFalse(luckyTickets.checkTicket2(digits))
+        );
     }
 
 
-
+    @Tag("intermediateVariable")
     @DisplayName("For 1: 101011 and 101020. For 2: 101013 and 101024")
     @ParameterizedTest
     @CsvSource({"101011,101024"})
@@ -49,7 +57,7 @@ class LuckyTicketsTest {
     }
 
 
-
+    @Tag("intermediateVariable")
     @DisplayName("Diapason 0-999999 gives 55252 'lucky' tickets")
     @ParameterizedTest
     @CsvSource({"0,999999"})
@@ -61,7 +69,7 @@ class LuckyTicketsTest {
         assertEquals(55252, luckyTickets.getLuckyTicketsCount2());
     }
 
-
+    @Tag("finalMethod")
     @DisplayName("Count in diapason gives a message. For 1: 101011 and 101020. For 2: 101013")
     @ParameterizedTest
     @CsvSource({"101011,101020,2,1"})
@@ -81,6 +89,7 @@ class LuckyTicketsTest {
         assertEquals(expected, actual);
     }
 
+    @Tag("finalMethod")
     @DisplayName("Count in diapason gives a message about 'luckier' method")
     @ParameterizedTest
     @CsvSource({"0,999999,55252"})

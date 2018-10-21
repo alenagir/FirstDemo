@@ -3,6 +3,7 @@ package models;
 import service.Scanned;
 
 import java.io.*;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,6 +21,20 @@ public class FileParser implements AutoCloseable{
         fileRead = new BufferedReader(new FileReader(this.filePATH = filePATH));
     }
 
+    public  void setParameters (String stringToFind, String stringToOverWrite){
+        this.stringToFind=stringToFind;
+        this.stringToOverWrite=stringToOverWrite;
+    }
+
+    public String getStringToFind() {
+        return stringToFind;
+    }
+
+    public String getStringToOverWrite() {
+        return stringToOverWrite;
+    }
+
+    //Method invoked from Main to count the same strings
     public int stringCounter (String stringToFind) throws IOException{
         if (stringToFind.equals("")){
             return stringCount=-1;
@@ -40,8 +55,9 @@ public class FileParser implements AutoCloseable{
         return stringCount;
     }
 
+    //Method invoked from Main to overwrite stringToFind with stringToOverWrite
     public void stringOverWrite (String stringToFind, String stringToOverWrite) throws IOException{
-        if (stringToOverWrite==null){
+        if (stringToOverWrite==null || stringToOverWrite==""){
             return;
         }
         StringBuilder text = new StringBuilder();
@@ -56,24 +72,6 @@ public class FileParser implements AutoCloseable{
     }
 
 
-    public  void enterStrings (){
-        System.out.println("Enter the substring to be counted: ");
-        this.stringToFind=Scanned.scanToString();
-        System.out.println("Enter the substring to overwrite: ");
-        this.stringToOverWrite=Scanned.scanToString();
-    }
-
-    public static String getFilePATH() {
-        return filePATH;
-    }
-
-    public String getStringToFind() {
-        return stringToFind;
-    }
-
-    public String getStringToOverWrite() {
-        return stringToOverWrite;
-    }
 
     @Override
     public void close() throws IOException {

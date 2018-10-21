@@ -3,14 +3,19 @@ import models.*;
 import myExceptions.*;
 import service.*;
 import java.io.IOException;
-import static service.TriangleSet.compareBySquare;
+import java.util.Scanner;
+
+import static service.TriangleSet.comparedBySquare;
 
 
 public class Main {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+
         String userAnswer;
         System.out.printf("Enter the number from 1 to 8 to choose the task or any other key to exit:\t");
-        userAnswer = Scanned.scanToString();
+        userAnswer = Scanned.scanToString(scanner);
         switch (userAnswer){
 
             case "1":
@@ -18,87 +23,89 @@ public class Main {
                 do {
                     try {
                         System.out.println("Enter the chessboard height:\t");
-                        int height = Scanned.scanToInteger();
+                        int height = Scanned.scanToInteger(scanner);
                         System.out.println("Enter the chessboard width:\t");
-                        int width = Scanned.scanToInteger();
+                        int width = Scanned.scanToInteger(scanner);
 
                         chessboard.setDimensions(height, width);
                         chessboard.printChessboard();
 
-                    }catch (NumberFormatException e){
-                        System.out.println(e.getMessage());
                     }catch (VariableEnterException ex){
+                        System.out.print(ex.getString());
                         System.out.println(ex.getMessage());
                     }
 
-                        System.out.println("\nWould you like to continue? yes(y)/no(any other key)");
-                        userAnswer=Scanned.scanToString();
-                    }while (userAnswer.equals("yes") || userAnswer.equals("y"));
+                    System.out.println("\nPress Enter to continue or any other key to exit");
+                    userAnswer=Scanned.scanToString(scanner);
+                }while (userAnswer.equals(""));
                 break;
             case "2":
                 Envelope envelope1 =new Envelope();
                 Envelope envelope2 =new Envelope();
                 EnvelopeCompare envelopeCompare=new EnvelopeCompare();
+                Double sides [] = new Double[4];
                 do{
-                    Double sides [] = new Double[4];
                     try {
                         int countEnv=1;
                         int countSides=0;
                         do {
                             System.out.printf("Enter envelope %d side 1, mm: ", countEnv);
-                            sides[countSides]=Scanned.scanToDouble();
+                            sides[countSides]=Scanned.scanToDouble(scanner);
 
                             System.out.printf("Enter envelope %d side 2, mm: ", countEnv);
-                            sides[countSides+1]=Scanned.scanToDouble();
+                            sides[countSides+1]=Scanned.scanToDouble(scanner);
                             countSides +=2;
                             countEnv++;
                         }while (countSides<4);
 
-                         envelopeCompare.setEnvelopesSides(envelope1, envelope2, sides);
-
                         System.out.println("\n"+envelopeCompare.comparingResult(envelope1, envelope2, sides));
 
-                   }catch (NumberFormatException e){
-                        System.out.println(e.getMessage());
-                   }catch (VariableEnterException ex){
+                    }catch (VariableEnterException ex){
+                        System.out.print(ex.getString());
                         System.out.println(ex.getMessage());
                     }
-                        System.out.println("\nWould you like to continue? yes(y)/no(any other key)");
-                        userAnswer=Scanned.scanToString();
-                    }while (userAnswer.equals("yes") || userAnswer.equals("y"));
+
+                    System.out.println("\nPress Enter to continue or any other key to exit");
+                    userAnswer=Scanned.scanToString(scanner);
+                }while (userAnswer.equals(""));
                 break;
             case "3":
 
-                TriangleSet triangleSet = new TriangleSet(compareBySquare);
+                TriangleSet triangleSet = new TriangleSet(comparedBySquare);
 
                 System.out.println("\nEnter triangle parameters in the format: <Name><,><side 1><,><side 2><,><side 3>" );
                 do{
-                String userEnter = Scanned.scanToString();
+                String userEnter = Scanned.scanToString(scanner);
                 try {
 
                     triangleSet.addTriangle(userEnter);
 
-                }catch (TriangleException te){
-                    System.out.println(te.getMessage());
-                }catch (NumberFormatException ne){
-                    System.out.println(ne.getMessage());
+                }catch (VariableEnterException ex){
+                    System.out.print(ex.getString());
+                    System.out.println(ex.getMessage());
                 }
                     System.out.println("\nPress Enter to add or any other key to exit");
-                    userAnswer=Scanned.scanToString();
+                    userAnswer=Scanned.scanToString(scanner);
                 }while (userAnswer.equals(""));
                 triangleSet.printTriangles();
                 break;
             case "4":
-                // D://JavaTasks//First_Demo//CSVSource//text.txt
+                // D://JavaTasks//First_Demo//FileSource//text.txt
                 System.out.println("Enter the file path: ");
-                String filePATH=Scanned.scanToString();
+                String filePATH=Scanned.scanToString(scanner);
                 FileParser fileParser=null;
                 try
                 {
                     fileParser = new FileParser(filePATH);
-                    fileParser.enterStrings();
-                    System.out.println(fileParser.stringCounter(fileParser.getStringToFind()));
-                    fileParser.stringOverWrite(fileParser.getStringToFind(),fileParser.getStringToOverWrite());
+
+                    System.out.println("Enter the substring to be counted: ");
+                    String stringToFind=Scanned.scanToString(scanner);
+                    System.out.println("Enter the substring to overwrite: ");
+                    String stringToOverWrite=Scanned.scanToString(scanner);
+                    fileParser.setParameters(stringToFind, stringToOverWrite);
+
+                    System.out.println(fileParser.stringCounter(stringToFind));
+                    fileParser.stringOverWrite(stringToFind,stringToOverWrite);
                     fileParser.close();
                 }
                 catch(IOException ex){
@@ -109,17 +116,17 @@ public class Main {
                 NumberReader number = new NumberReader();
                 System.out.print("Enter a number from 0 to 999 999 999:\n");
                 do{
-                    Integer enteredNumber = Scanned.scanToInteger();
                     try{
-                        number.setEnteredNumber(enteredNumber);
-                        System.out.println(number.getNumberInWords());
-                    }catch (NumberFormatException e) {
-                        System.out.println(e.getMessage());
+                        int enteredNumber = Scanned.scanToInteger(scanner);
+                        number.setEnteredNumber(Math.abs(enteredNumber));
                     }catch (VariableEnterException ex){
+                        System.out.print(ex.getString());
                         System.out.println(ex.getMessage());
                     }
-                    System.out.println("\nPress Enter to add or any other key to exit");
-                    userAnswer=Scanned.scanToString();
+                    System.out.println(number.getNumberInWords());
+
+                    System.out.println("\nPress Enter to continue or any other key to exit");
+                    userAnswer=Scanned.scanToString(scanner);
                 }while (userAnswer.equals(""));
                 break;
             case "6":
@@ -128,23 +135,22 @@ public class Main {
                 do {
                     try {
                         System.out.println("Enter MIN ticket number:");
-                        ticketsPack.setMinNumber(Scanned.scanToInteger());
+                        ticketsPack.setMinNumber(Scanned.scanToInteger(scanner));
 
                         System.out.println("Enter MAX ticket number:");
-                        ticketsPack.setMaxNumber(Scanned.scanToInteger());
+                        ticketsPack.setMaxNumber(Scanned.scanToInteger(scanner));
 
                         System.out.printf("Ticket numbers range: " + "%06d - %06d" + "\n",
                                 ticketsPack.getMinNumber(), ticketsPack.getMaxNumber());
 
                         System.out.println(luckyTickets.countTickets(ticketsPack));
 
-                    } catch (NumberFormatException e) {
-                        System.out.println(e.getMessage());
-                    } catch (VariableEnterException ex) {
+                    }catch (VariableEnterException ex){
+                        System.out.print(ex.getString());
                         System.out.println(ex.getMessage());
                     }
                     System.out.println("\nPress Enter to add or any other key to exit");
-                    userAnswer=Scanned.scanToString();
+                    userAnswer=Scanned.scanToString(scanner);
                 }while (userAnswer.equals(""));
                  break;
             case "7":
@@ -152,18 +158,17 @@ public class Main {
                 do{
                     try {
                         System.out.println("Enter a sequence length: ");
-                        sequence.setSequencelength(Scanned.scanToInteger());
+                        sequence.setSequencelength(Scanned.scanToInteger(scanner));
                         System.out.println("Enter a minimal square: ");
-                        sequence.setMinSquare(Scanned.scanToInteger());
+                        sequence.setMinSquare(Scanned.scanToInteger(scanner));
                         sequence.getSequence();
                         sequence.print();
-                    }catch (NumberFormatException e){
-                        System.out.println(e.getMessage());
                     }catch (VariableEnterException ex){
+                        System.out.print(ex.getString());
                         System.out.println(ex.getMessage());
                     }
                     System.out.println("\nPress Enter to add or any other key to exit");
-                    userAnswer=Scanned.scanToString();
+                    userAnswer=Scanned.scanToString(scanner);
                 }while (userAnswer.equals(""));
                 break;
             case "8":
@@ -171,7 +176,7 @@ public class Main {
                 System.out.println("Enter a range in format <number><-><number> or number of digits: ");
                 do{
                     try {
-                       String userEnter = Scanned.scanToString();
+                       String userEnter = Scanned.scanToString(scanner);
                         fibonacci.printFibonacci(userEnter);
 
                     }catch (NumberFormatException e){
@@ -180,7 +185,7 @@ public class Main {
                         System.out.println(ex.getMessage());
                     }
                     System.out.println("\nPress Enter to add or any other key to exit");
-                    userAnswer=Scanned.scanToString();
+                    userAnswer=Scanned.scanToString(scanner);
                 }while (userAnswer.equals(""));
                 break;
         }

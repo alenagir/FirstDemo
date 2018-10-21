@@ -27,7 +27,7 @@ public class TicketsPack {
 
     public void setMaxNumber(int maxNumber) throws VariableEnterException {
         if (maxNumber > MAX_NUMBER) {
-            throw new VariableEnterException("Max value has more then 6 numerals");
+            throw new VariableEnterException("is the Max ticket number", MAX_NUMBER);
         }
         this.maxNumber = maxNumber;
     }
