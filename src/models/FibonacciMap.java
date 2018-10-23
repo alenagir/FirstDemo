@@ -3,27 +3,34 @@ import myExceptions.VariableEnterException;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
-    public class FibonacciMap {
+public class FibonacciMap {
         private long range []={0,1};
-        private Map<Integer, Long> fibMap;
+        private SortedMap<Integer, Long> fibMap;
         private String userEnter;
 
+        long fib1; //F[n-2]
+        long fib2; //F[n-1]
+        long fibLast;// F[n]
+        int n;// series Number of fib number
+
         public FibonacciMap(){
-            fibMap = new HashMap();
+            fibMap = new TreeMap<>();
         }
 
         public void setRange(String userEnter) throws VariableEnterException {
             String userString[]=userEnter.split("-");
             if(userString.length>2){
-                throw new VariableEnterException("Incorrect range input!");
+                throw new VariableEnterException("Should enter in format <Digits> or <range start><-><range end>");
             }
             if (userString.length == 2) {
                 try {
                     range[0] = Long.parseLong(userString[0]);
                     range[1] = Long.parseLong(userString[1]);
                 }catch (NumberFormatException ne){
-                    throw new NumberFormatException("It is not a long number!");
+                    throw new VariableEnterException(" is not a long number!", userEnter);
                 }
                     if (range[1] < range[0]) {
                         long tmp = range[1];
@@ -36,10 +43,10 @@ import java.util.Map;
                 try {
                     length = Long.parseLong(userString[0]);
                 }catch (NumberFormatException ne){
-                    throw new NumberFormatException("It is not a long number!");
+                    throw new VariableEnterException(" is not a long number!", userEnter);
                 }
-                if(length<0){
-                    throw new VariableEnterException("Must be > 0!");
+                if(length<=0){
+                    throw new VariableEnterException(" Must be > 0!", userEnter);
                 }
                 range[0] = (long) Math.pow(10, length - 1);
                 range[1] = (long) Math.pow(10, length) - 1;
@@ -49,36 +56,50 @@ import java.util.Map;
             }
         }
 
-        public Map calcFibonacci() {
-            if (range[0] == 0) {
-                fibMap.put(1, 0L);
-                fibMap.put(2, 1L);
+        public SortedMap<Integer, Long> calcFibonacci() {
+            if(fibMap.containsValue(range[0]) && fibMap.containsValue(range[1])){ //in case repeated method invoke
+                return fibMap;
             }
-            if (range[0] == 1) {
-                fibMap.put(2, 1L);
-            }
-            long fib1 = 0; //F[n-2]
-            long fib2 = 1; //F[n-1]
-            long fibSum = 1;// F[n]
-
-            int n = 2;
-
-            while (fibSum <= range[1]) {
-                n++;
-                fibSum = fib1 + fib2;
-                fib1 = fib2;
-                fib2 = fibSum;
-
-                if(fibSum>=range[0] && fibSum <= range[1]) {
-                    fibMap.put(n, fibSum);
+            // when calcFibonacci invoked for the first time
+            if(fibMap.isEmpty()) {
+                if (range[0] == 0) {
+                    fibMap.put(1, 0L);
+                    fibMap.put(2, 1L);
                 }
+                if (range[0] == 1) {
+                    fibMap.put(2, 1L);
+                }
+                fib1 = 0; //F[n-2]
+                fib2 = 1; //F[n-1]
+                fibLast = 1;// F[n]
+                n = 2;
+            }
+
+            // in repeated calcFibonacci invoke
+            if(fibMap.isEmpty()==false && fibMap.lastKey()>2){
+
+                    fib1 = fibMap.get(fibMap.lastKey() - 1); //F[n-2]
+                    fib2 = fibMap.get(fibMap.lastKey()); //F[n-1] last in the previous cals
+                    //  fibLast - F[n] - to be calculated in this calc
+                    n = fibMap.lastKey(); //Start count from the previous last
+
+            }
+            //The same for the first and repeated invoke
+            while (fibLast <= range[1]) {
+                n++;
+                fibLast = fib1 + fib2;
+                fib1 = fib2;
+                fib2 = fibLast;
+                if(fibLast<=range[1]){
+                    fibMap.put(n, fibLast);
+                }
+
+
             }
             return fibMap;
         }
 
-
-
-
+        //Method invoked from Main
         public void printFibonacci(String userEnter) throws VariableEnterException {
             setRange(userEnter);
             calcFibonacci();

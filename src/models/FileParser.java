@@ -57,7 +57,7 @@ public class FileParser implements AutoCloseable{
 
     //Method invoked from Main to overwrite stringToFind with stringToOverWrite
     public void stringOverWrite (String stringToFind, String stringToOverWrite) throws IOException{
-        if (stringToOverWrite==null || stringToOverWrite==""){
+        if (stringToOverWrite==null){
             return;
         }
         StringBuilder text = new StringBuilder();

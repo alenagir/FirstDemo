@@ -9,9 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.testng.asserts.SoftAssert;
 import service.LuckyTickets;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class LuckyTicketsTest {
     TicketsPack ticketsPack=new TicketsPack();
@@ -24,10 +26,10 @@ class LuckyTicketsTest {
     @ValueSource(ints = {0,101101,885588,999999})
     void trueCheckTicket_1_2_SymmetricSource(Integer integer) throws VariableEnterException {
         Integer digits[]=luckyTickets.getNumerals(integer);
-        assertAll("assertTrue",
-                () ->  assertTrue(luckyTickets.checkTicket1(digits)),
-                () -> assertTrue(luckyTickets.checkTicket2(digits))
-        );
+        SoftAssert softAssert=new SoftAssert();
+        softAssert.assertTrue(luckyTickets.checkTicket1(digits));
+         softAssert.assertTrue(luckyTickets.checkTicket2(digits));
+        softAssert.assertAll();
     }
 
     @Tag("baseMethod")
@@ -36,9 +38,10 @@ class LuckyTicketsTest {
     @ValueSource(ints = {1,2,3,123456,999000,990999})
     void falseCheckTicket_1_2_AsymmetricSource(Integer integer) throws VariableEnterException {
         Integer digits[]=luckyTickets.getNumerals(integer);
+        SoftAssert softAssert=new SoftAssert();
         assertAll("assertFalse",
-                () ->  assertFalse(luckyTickets.checkTicket1(digits)),
-                () -> assertFalse(luckyTickets.checkTicket2(digits))
+                () ->  softAssert.assertFalse(luckyTickets.checkTicket1(digits)),
+                () -> softAssert.assertFalse(luckyTickets.checkTicket2(digits))
         );
     }
 
@@ -109,7 +112,27 @@ class LuckyTicketsTest {
         assertEquals(expected, actual);
     }
 
+    @DisplayName("minNumber should not be > MAX_NUMBER and < 0 throws VariableEnterException")
+    @Tag("exception")
+    @ParameterizedTest
+    @ValueSource(ints = {-2, TicketsPack.MAX_NUMBER})
+     void setTicketsPackMinNumber_throwException(int number) {
+        assertThrows(VariableEnterException.class,
+                ()->{
+                    ticketsPack.setMinNumber(number+1);
+                });
+    }
 
+    @DisplayName("maxNumber should not be > MAX_NUMBER and < 0 throws VariableEnterException")
+    @Tag("exception")
+    @ParameterizedTest
+    @ValueSource(ints = {-2, TicketsPack.MAX_NUMBER})
+    void setTicketsPackMaxNumber_throwException(int number) {
+        assertThrows(VariableEnterException.class,
+                ()->{
+                    ticketsPack.setMaxNumber(number+1);
+                });
+    }
 
 
 }
